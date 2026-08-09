@@ -26,10 +26,11 @@ export const InputNode = ({ id, data, selected }) => {
       <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
         <label style={{ fontSize: '11px', color: 'var(--text-secondary)' }}>
           Name
-          <div style={{ marginTop: '4px' }}>
+          <div style={{ marginTop: '4px', flex: 1, display: 'flex' }}>
             <DynamicTextArea 
                 value={inputName} 
                 onChange={(e) => updateNodeField(id, 'inputName', e.target.value)} 
+                isResized={data?.isResized}
             />
           </div>
         </label>

@@ -6,7 +6,8 @@ import { shallow } from 'zustand/shallow';
 
 export const BaseNode = ({ id, data, title, children, handles = [], icon, selected, style = {} }) => {
   const removeNode = useStore((state) => state.removeNode);
-  
+  const updateNodeField = useStore((state) => state.updateNodeField);
+
   // Use selector to specifically check if this node is active during simulation
   const isActive = useStore(
     (state) => state.activeNodes.includes(id),
@@ -33,6 +34,7 @@ export const BaseNode = ({ id, data, title, children, handles = [], icon, select
         minWidth={220} 
         minHeight={80} 
         handleStyle={{ width: 8, height: 8, borderRadius: 4 }}
+        onResizeStart={() => updateNodeField(id, 'isResized', true)}
       />
 
       {/* Close Button */}

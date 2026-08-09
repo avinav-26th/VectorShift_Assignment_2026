@@ -52,6 +52,7 @@ export const TextNode = ({ id, data, selected, width, height }) => {
             <DynamicTextArea
                 value={text} 
                 onChange={(e) => updateNodeField(id, 'text', e.target.value)} 
+                isResized={data?.isResized}
             />
 
             {/* Variable Chips */}

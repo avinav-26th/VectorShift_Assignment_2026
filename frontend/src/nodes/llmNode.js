@@ -32,6 +32,7 @@ export const LLMNode = ({ id, data, selected }) => {
             <DynamicTextArea 
                 value={data.systemMessage ?? "You are a helpful assistant..."}
                 onChange={(e) => updateNodeField(id, 'systemMessage', e.target.value)}
+                isResized={data?.isResized}
             />
         </div>
         

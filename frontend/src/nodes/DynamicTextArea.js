@@ -1,12 +1,12 @@
 import React, { useState, useRef } from 'react';
 
-export const DynamicTextArea = ({ value, onChange, placeholder = "" }) => {
+export const DynamicTextArea = ({ value, onChange, placeholder = "", isResized = false }) => {
     const [isFocused, setIsFocused] = useState(false);
     const textareaRef = useRef(null);
     
     // Soft limits for maximum expansion before scrolling kicks in
-    const softMaxWidth = '300px';
-    const softMaxHeight = '400px';
+    const softMaxWidth = isResized ? '100%' : '300px';
+    const softMaxHeight = isResized ? '100%' : '400px';
 
     const handleChange = (e) => {
         let val = e.target.value;
@@ -45,6 +45,8 @@ export const DynamicTextArea = ({ value, onChange, placeholder = "" }) => {
             style={{
                 display: 'grid',
                 width: '100%',
+                height: isResized ? '100%' : 'auto',
+                flex: isResized ? 1 : 'none',
                 // ALWAYS apply maximums so there is absolutely no jumping on focus/blur
                 maxWidth: softMaxWidth,
                 maxHeight: softMaxHeight,

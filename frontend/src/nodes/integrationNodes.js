@@ -22,6 +22,7 @@ export const SlackNode = ({ id, data, selected }) => {
             <DynamicTextArea 
                 value={channel}
                 onChange={(e) => updateNodeField(id, 'channel', e.target.value)}
+                isResized={data?.isResized}
             />
         </BaseNode>
     );
@@ -116,6 +117,7 @@ export const APINode = ({ id, data, selected }) => {
                 value={url}
                 onChange={(e) => updateNodeField(id, 'url', e.target.value)}
                 placeholder="https://api..." 
+                isResized={data?.isResized}
             />
         </BaseNode>
     );
@@ -132,6 +134,7 @@ export const NoteNode = ({ id, data, selected }) => {
                     value={text}
                     onChange={(e) => updateNodeField(id, 'text', e.target.value)}
                     placeholder="Type your note..."
+                    isResized={data?.isResized}
                 />
             </div>
         </BaseNode>
