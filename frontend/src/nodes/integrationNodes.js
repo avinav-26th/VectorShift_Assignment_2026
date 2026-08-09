@@ -8,13 +8,13 @@ import { DynamicTextArea } from './DynamicTextArea';
 
 export const TimerNode = ({ id, data, selected }) => (
     <BaseNode id={id} data={data} title="Timer" icon={<MdTimer />} selected={selected} handles={[{ type: 'source', position: Position.Right, id: 'time' }]}>
-       <div style={{fontSize: '12px', color: '#aaa'}}>Runs every {data?.interval || '5'} {data?.unit || 'mins'}</div>
+       <div style={{fontSize: '12px', color: '#aaa'}}>Runs every {data?.interval ?? '5'} {data?.unit ?? 'mins'}</div>
     </BaseNode>
 );
 
 export const SlackNode = ({ id, data, selected }) => {
     const updateNodeField = useStore((state) => state.updateNodeField);
-    const channel = data?.channel || '#general';
+    const channel = data?.channel ?? '#general';
 
     return (
         <BaseNode id={id} data={data} title="Slack" icon={<MdMessage />} selected={selected} handles={[{ type: 'target', position: Position.Left, id: 'msg' }]}>
@@ -104,7 +104,7 @@ export const DatabaseNode = ({ id, data, selected }) => {
 
 export const APINode = ({ id, data, selected }) => {
     const updateNodeField = useStore((state) => state.updateNodeField);
-    const url = data?.url || '';
+    const url = data?.url ?? '';
 
     return (
         <BaseNode id={id} data={data} title="API Call" icon={<MdApi />} selected={selected} handles={[
@@ -123,7 +123,7 @@ export const APINode = ({ id, data, selected }) => {
 
 export const NoteNode = ({ id, data, selected }) => {
     const updateNodeField = useStore((state) => state.updateNodeField);
-    const text = data?.text || '';
+    const text = data?.text ?? '';
 
     return (
         <BaseNode id={id} data={data} title="Note" icon={<MdNote />} selected={selected}>

@@ -5,7 +5,7 @@
 VectorShift Pipeline Demo is a drag-and-drop editor that allows users to design, validate, and simulate complex AI workflows. It mimics the behavior of production-grade tools like LangFlow or ComfyUI, offering a seamless experience from "Idea" to "Execution Simulation." It features a custom-built Breadth-First Search (BFS) execution engine, real-time variable detection, robust state management, and a Python-powered DAG validator.
 
 ---
-### [See Live Frontend](https://vectorshift-pipeline-frontend.vercel.app/) | [Walkthrough Demo](https://youtu.be/placeholder-link)
+### [See Live Frontend](https://vector-shift-assignment-2026.vercel.app/) | [Walkthrough Demo](https://youtu.be/placeholder-link)
 ---
 
 ## Key Features & Nuances Handled
@@ -85,8 +85,7 @@ npm install
 npm start
 
 # OR: To run without starting the local backend (points to live Render backend):
-REACT_APP_BACKEND_URL=https://vectorshift-backend-po8u.onrender.com npm start
-# (Replace with your actual Render URL if different)
+REACT_APP_BACKEND_URL=https://vectorshift-assignment-2026.onrender.com npm start
 ```
 
 ### 2. Backend Setup (The DAG Validator)
@@ -111,32 +110,32 @@ uvicorn main:app --reload
 
 ### 1. The "Over-Rendering" Lag (Performance)
 * **Challenge:** Initially, dragging a single node caused the entire canvas to lag. This was because the `BaseNode` was subscribing to the entire `store.activeNodes` array. Even if Node A moved, Node B would re-render to check if it was "active".
-* **Solution:** We implemented **Selective Subscriptions** using `zustand/shallow`. Now, a node only re-renders if its *specific* ID enters or leaves the active list.
+* **Solution:** I implemented **Selective Subscriptions** using `zustand/shallow`. Now, a node only re-renders if its *specific* ID enters or leaves the active list.
 
 ### 2. Handling Circular Dependencies in Simulation
 * **Challenge:** If a user created a loop (Node A -> Node B -> Node A), a naive recursive simulation would crash the browser with a stack overflow.
 * **Solution:** The Simulation Engine in `store.js` implements a `visited` Set during its BFS traversal. It tracks nodes processed in the current run cycle and explicitly prevents re-triggering a node that is already "lit," effectively handling loops gracefully.
 
 ### 3. Dynamic Text Area Constraints
-* **Challenge:** We wanted nodes to auto-resize horizontally and vertically as users typed, but standard text areas natively only support vertical auto-resize (`react-textarea-autosize`), which often broke standard flex layouts.
-* **Solution:** We developed `DynamicTextArea.js`, which renders a hidden `<div white-space="pre">` in a 1x1 CSS grid perfectly mirroring the user's text. This natively forces the parent grid to expand precisely to the dimensions of the text block, seamlessly dictating the React Flow node size. When blurred, soft limits apply and a sleek custom scrollbar appears.
+* **Challenge:** I wanted nodes to auto-resize horizontally and vertically as users typed, but standard text areas natively only support vertical auto-resize (`react-textarea-autosize`), which often broke standard flex layouts.
+* **Solution:** I developed `DynamicTextArea.js`, which renders a hidden `<div white-space="pre">` in a 1x1 CSS grid perfectly mirroring the user's text. This natively forces the parent grid to expand precisely to the dimensions of the text block, seamlessly dictating the React Flow node size. When blurred, soft limits apply and a sleek custom scrollbar appears.
 
 ### 4. "Ghost Edge" Crashes (Persistence Sanitization)
 * **Challenge:** When loading a pipeline from Local Storage, if a saved edge pointed to a node that was deleted in a previous session, React Flow would throw a hard error and crash the entire app.
-* **Solution:** We added a sanitization layer in the `loadPipeline` action. It filters the edges against the *current* list of loaded node IDs, silently discarding any "Ghost Edges" before they reach the render engine.
+* **Solution:** I added a sanitization layer in the `loadPipeline` action. It filters the edges against the *current* list of loaded node IDs, silently discarding any "Ghost Edges" before they reach the render engine.
 
 ---
 
 ## Architecture Decision Record (ADR)
 
 ### Why Zustand over Redux?
-We chose Zustand because its transient update model is superior for high-frequency updates like dragging nodes (60hz). Redux boilerplate would have made handling the `onNodesChange` events excessively verbose and slower.
+I chose Zustand because its transient update model is superior for high-frequency updates like dragging nodes (60hz). Redux boilerplate would have made handling the `onNodesChange` events excessively verbose and slower.
 
 ### Why separate `BaseNode.js`?
-Instead of repeating styling logic (borders, shadows, delete buttons) in every node file, we created a Higher-Order Component (`BaseNode`). This ensures that if we want to change the "Selected" color, we change it in one file, and it propagates to all node types instantly.
+Instead of repeating styling logic (borders, shadows, delete buttons) in every node file, I created a Higher-Order Component (`BaseNode`). This ensures that if I want to change the "Selected" color, I change it in one file, and it propagates to all node types instantly.
 
 ### Why Client-Side BFS Simulation?
-Instead of requiring a heavy backend execution for simple visual testing, we built a client-side Breadth-First Search (BFS) engine. This allows users to instantly visualize the *flow* of logic without needing valid API keys or server resources, providing immediate tactile feedback.
+Instead of requiring a heavy backend execution for simple visual testing, I built a client-side Breadth-First Search (BFS) engine. This allows users to instantly visualize the *flow* of logic without needing valid API keys or server resources, providing immediate tactile feedback.
 
 ---
 
@@ -162,7 +161,7 @@ A: Yes. The app uses Local Storage persistence. You can close the tab, restart y
 A: Hover over any connecting line. A red "X" button will appear. Click it to sever the connection.
 
 **Q: Why doesn't the Text Node show scrollbars while typing?**
-A: We use a custom-engineered auto-resizing grid. The node physically grows with your content while focused, so you never have to scroll inside a tiny box. Soft constraints only apply when you click away.
+A: I use a custom-engineered auto-resizing grid. The node physically grows with your content while focused, so you never have to scroll inside a tiny box. Soft constraints only apply when you click away.
 
 ---
 

@@ -9,8 +9,8 @@ export const InputNode = ({ id, data, selected }) => {
   const updateNodeField = useStore((state) => state.updateNodeField);
 
   // Default values if not set in data
-  const inputName = data?.inputName || id.replace('customInput-', 'input_');
-  const inputType = data?.inputType || 'Text';
+  const inputName = data?.inputName ?? id.replace('customInput-', 'input_');
+  const inputType = data?.inputType ?? 'Text';
 
   return (
     <BaseNode
